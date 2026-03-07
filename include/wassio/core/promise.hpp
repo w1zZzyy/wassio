@@ -1,0 +1,84 @@
+#pragma once
+
+#include <coroutine>
+
+namespace wassio::core {
+
+/* 
+promise container
+
+- PromiseValuePolicy 
+    - used as storage
+    - provides one of methods:
+        1) return_value 
+        2) return_void
+        returns a value stored in promise
+
+- InitialSuspendPolicy 
+    - initial_suspend
+        which determines whether the coroutine will start immediately 
+        or wait until the resume() method is called
+
+- FinalSuspendPolicy 
+    - final_suspend
+        which is called after return_* 
+        and manages continuation 
+  
+- ExceptionPolicy 
+    - handle
+        which is called when unhandled exception occurs
+
+- TransformAwaiter 
+    - await_transform
+        which may exist or may not exist,
+        casts to some Awaiter
+
+- Allocator
+    - operators new
+        allocating coroutine frame
+    - operators delete
+        deallocating coroutine frame
+*/
+template<
+    typename PromiseValuePolicy, 
+    typename InitialSuspendPolicy, 
+    typename FinalSuspendPolicy, 
+    typename ExceptionPolicy, 
+    typename TransformAwaiter,
+    typename Allocator>
+struct PromiseContainer : 
+    public PromiseValuePolicy, 
+    public FinalSuspendPolicy,
+    public TransformAwaiter
+{
+    using InitialSuspendPolicy::initial_suspend;
+    using FinalSuspendPolicy::final_suspend;
+
+    using Allocator::operator new;
+    using Allocator::operator delete;
+
+    void unhandled_exception() {
+        ExceptionPolicy::handle(
+            static_cast<PromiseValuePolicy&>(*this)
+        );
+    }
+};
+
+/* 
+promise 
+
+- Coroutine 
+    the task which has promise_type 
+- Container 
+    simply PromiseTypeContainer
+*/
+template<typename Coroutine, typename Container>
+struct Promise final : public Container {
+    using handler = std::coroutine_handle<Promise>;
+
+    auto get_return_object() {
+        return Coroutine(handler::from_promise(*this));
+    }
+};
+
+}
