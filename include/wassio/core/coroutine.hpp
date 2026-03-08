@@ -14,14 +14,14 @@ coroutine
     - update_continuation method [required]
     - co_await operator [not required]
 
-- PromiseContainerPolicy
+- PromiseConfigPolicy
     promise type configuration
 */
-template<template <typename> typename AwaitablePolicy, typename PromiseContainerPolicy>
+template<template <typename> typename AwaitablePolicy, typename PromiseConfigPolicy>
 class Coroutine final : public AwaitablePolicy
- <Promise<Coroutine<AwaitablePolicy, PromiseContainerPolicy>, PromiseContainerPolicy>> {
+ <Promise<Coroutine<AwaitablePolicy, PromiseConfigPolicy>, PromiseConfigPolicy>> {
 public:
-    using promise_type = Promise<Coroutine, PromiseContainerPolicy>;
+    using promise_type = Promise<Coroutine, PromiseConfigPolicy>;
     using handler = promise_type::handler;
     using awaitable = AwaitablePolicy<promise_type>;
 
@@ -51,7 +51,7 @@ private:
     {}
     void destroy() noexcept { if(handler_) { handler_.destroy(); } }
 
-    friend class Promise<Coroutine, PromiseContainerPolicy>;
+    friend class Promise<Coroutine, PromiseConfigPolicy>;
 
     handler handler_;
 };

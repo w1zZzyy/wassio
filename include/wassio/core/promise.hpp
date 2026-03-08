@@ -5,7 +5,7 @@
 namespace wassio::core {
 
 /* 
-promise container
+promise config
 
 - PromiseReturnPolicy 
     - provides one of methods:
@@ -49,7 +49,7 @@ template<
     typename TransformAwaiter,
     typename Storage,
     typename Allocator>
-struct PromiseContainer : 
+struct PromiseConfig : 
     public PromiseReturnPolicy, 
     public FinalSuspendPolicy,
     public TransformAwaiter,
@@ -73,11 +73,11 @@ promise
 
 - Coroutine 
     the task which has promise_type 
-- Container 
-    simply PromiseTypeContainer
+- Config 
+    PromiseConfig
 */
-template<typename Coroutine, typename Container>
-struct Promise final : public Container {
+template<typename Coroutine, typename Config>
+struct Promise final : public Config {
     using handler = std::coroutine_handle<Promise>;
 
     auto get_return_object() {
