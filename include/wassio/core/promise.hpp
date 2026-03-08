@@ -55,6 +55,8 @@ struct PromiseConfig :
     public TransformAwaiter,
     public Storage
 {
+    using Storage::Storage;
+
     using InitialSuspendPolicy::initial_suspend;
     using FinalSuspendPolicy::final_suspend;
 
@@ -78,6 +80,7 @@ promise
 */
 template<typename Coroutine, typename Config>
 struct Promise final : public Config {
+    using Config::Config;
     using handler = std::coroutine_handle<Promise>;
 
     auto get_return_object() {
