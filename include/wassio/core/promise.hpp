@@ -7,8 +7,7 @@ namespace wassio::core {
 /* 
 promise container
 
-- PromiseValuePolicy 
-    - used as storage
+- PromiseReturnPolicy 
     - provides one of methods:
         1) return_value 
         2) return_void
@@ -38,18 +37,23 @@ promise container
         allocating coroutine frame
     - operators delete
         deallocating coroutine frame
+
+- Storage
+    - object for data storage (executor, logger, ...)
 */
 template<
-    typename PromiseValuePolicy, 
+    typename PromiseReturnPolicy, 
     typename InitialSuspendPolicy, 
     typename FinalSuspendPolicy, 
     typename ExceptionPolicy, 
     typename TransformAwaiter,
+    typename Storage,
     typename Allocator>
 struct PromiseContainer : 
-    public PromiseValuePolicy, 
+    public PromiseReturnPolicy, 
     public FinalSuspendPolicy,
-    public TransformAwaiter
+    public TransformAwaiter,
+    public Storage
 {
     using InitialSuspendPolicy::initial_suspend;
     using FinalSuspendPolicy::final_suspend;
@@ -59,7 +63,7 @@ struct PromiseContainer :
 
     void unhandled_exception() {
         ExceptionPolicy::handle(
-            static_cast<PromiseValuePolicy&>(*this)
+            static_cast<PromiseReturnPolicy&>(*this)
         );
     }
 };
