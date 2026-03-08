@@ -13,18 +13,32 @@ concept is_unique = !(std::is_same_v<T, TS> || ...);
 
 }
 
+/* 
+promise storage
+
+- StorageArgs 
+    1) args are unique
+    2) use it as storage for necessary data (executor, logger, scheduler...)
+*/
 template<typename... StorageArgs>
 class PromiseStorage {
     static_assert(
         (is_unique<StorageArgs, StorageArgs...> && ...), 
         "args must be unique"
     );
-public:
-    explicit PromiseStorage(StorageArgs&&... args)
-        : args_(std::forward<StorageArgs>(args)...)
-    {}
 
-    PromiseStorage() = default;
+    template<typename T>
+    void init_if_exists(T&& arg) {
+        if constexpr ((std::is_same_v<std::decay_t<T>, StorageArgs> || ...)) {
+            SetArg(std::forward<T>(arg));
+        }
+    }
+
+public:
+    template<typename... Args>
+    explicit PromiseStorage(Args&&... args) {
+        (init_if_exists(std::forward<Args>(args)), ...);
+    }
 
     template<typename T>
     T& GetArg() {
@@ -38,7 +52,7 @@ public:
 
     template<typename T>
     void SetArg(T&& v) {
-        std::get<T>(args_) = std::forward<T>(v);
+        std::get<std::decay_t<T>>(args_) = std::forward<T>(v);
     }
 
 private:
