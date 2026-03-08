@@ -24,8 +24,9 @@ promise config
         and manages continuation 
   
 - ExceptionPolicy 
-    - handle
-        which is called when unhandled exception occurs
+    - unhandled_exception
+    - HasError 
+    - RethrowException
 
 - TransformAwaiter 
     - await_transform
@@ -52,6 +53,7 @@ template<
 struct PromiseConfig : 
     public PromiseReturnPolicy, 
     public FinalSuspendPolicy,
+    public ExceptionPolicy,
     public TransformAwaiter,
     public Storage
 {
@@ -63,11 +65,7 @@ struct PromiseConfig :
     using Allocator::operator new;
     using Allocator::operator delete;
 
-    void unhandled_exception() {
-        ExceptionPolicy::handle(
-            static_cast<PromiseReturnPolicy&>(*this)
-        );
-    }
+    using ExceptionPolicy::unhandled_exception;
 };
 
 /* 
