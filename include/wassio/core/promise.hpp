@@ -12,6 +12,7 @@ promise config
         1) return_value 
         2) return_void
         returns a value stored in promise
+    - GetResult
 
 - InitialSuspendPolicy 
     - initial_suspend
