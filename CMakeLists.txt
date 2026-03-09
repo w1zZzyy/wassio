@@ -11,3 +11,9 @@ target_include_directories(${PROJECT_NAME}_interface
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+option(BUILD_TESTS "build google tests" TRUE)
+
+if(${BUILD_TESTS}) 
+    add_subdirectory(tests)
+endif()
