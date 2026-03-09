@@ -14,7 +14,7 @@ namespace wassio {
 
 using EntryCoro = 
     core::Coroutine<
-        core::Awaitable,
+        core::AwaitableNone,
         core::PromiseConfig<
             core::PromiseResult<void>, 
             core::LazySuspend, 
