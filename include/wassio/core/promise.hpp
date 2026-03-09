@@ -53,20 +53,16 @@ template<
     typename Allocator>
 struct PromiseConfig : 
     public PromiseReturnPolicy, 
+    public InitialSuspendPolicy,
     public FinalSuspendPolicy,
     public ExceptionPolicy,
     public TransformAwaiter,
-    public Storage
+    public Storage,
+    public Allocator
 {
     using Storage::Storage;
-
     using InitialSuspendPolicy::initial_suspend;
     using FinalSuspendPolicy::final_suspend;
-
-    using Allocator::operator new;
-    using Allocator::operator delete;
-
-    using ExceptionPolicy::unhandled_exception;
 };
 
 /* 
