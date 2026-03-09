@@ -15,8 +15,11 @@ struct EagerSuspend {
 };
 
 // resumes parent corutine
-struct FinalSuspendAwakeContinuation {
-    std::coroutine_handle<> continuation;
+class FinalSuspendAwakeContinuation {
+public:
+    void UpdateContinuation(std::coroutine_handle<> caller) noexcept {
+        continuation_ = caller;
+    }
 
     auto final_suspend() noexcept {
         struct Awaiter {
@@ -27,7 +30,7 @@ struct FinalSuspendAwakeContinuation {
             }
 
             std::coroutine_handle<> await_suspend(std::coroutine_handle<>) noexcept {
-                auto cont = self->continuation;
+                auto cont = self->continuation_;
                 return cont ? cont : std::noop_coroutine();
             }
 
@@ -36,6 +39,10 @@ struct FinalSuspendAwakeContinuation {
 
         return Awaiter(this);
     }
+
+private:
+    std::coroutine_handle<> continuation_;
+
 };
 
 }
