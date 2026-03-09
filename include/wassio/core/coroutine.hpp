@@ -11,7 +11,7 @@ coroutine
 
 - AwaitablePolicy 
     stores coroutine<Promise> continuation if 
-    - update_continuation method [required]
+    - UpdateHandler method [required]
     - co_await operator [not required]
 
 - PromiseConfigPolicy
@@ -39,7 +39,7 @@ public:
         if (this != &o) {
             destroy();
             handler_ = std::exchange(o.handler_, {});
-            awaitable::update_continuation(handler_);
+            awaitable::UpdateHandler(handler_);
         }
         return *this;
     }
