@@ -7,6 +7,7 @@ namespace wassio::core {
 template<typename Promise>
 class AwaitableNone {
 public:
+    explicit AwaitableNone(auto) noexcept {} 
     void UpdateHandler(auto) noexcept {}
 };
 
@@ -46,6 +47,7 @@ public:
                 return p.GetResult();
             }            
         };
+        return Awaiter(this);
     }
 
 private:

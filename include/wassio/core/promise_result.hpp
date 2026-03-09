@@ -7,6 +7,7 @@ namespace wassio::core {
 
 template<typename ReturnType>
 class PromiseResult {
+public:
     void return_value(ReturnType res) {
         result_ = std::move(res);
     }
