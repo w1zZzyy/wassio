@@ -44,6 +44,8 @@ public:
         return *this;
     }
 
+    handler GetHandler() const noexcept { return handler_; }
+
 private:
     explicit Coroutine(handler h) noexcept : 
         awaitable(h), 

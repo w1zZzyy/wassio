@@ -13,11 +13,24 @@ enable_testing()
 add_executable(tests 
     test_core.cpp
 )
+
 target_link_libraries(tests
     PRIVATE 
         ${PROJECT_NAME}_interface 
         GTest::gtest_main
 )
+
+option(ENABLE_SANITIZERS "Enable ASan + UBSan" ON)
+if(ENABLE_SANITIZERS)
+    target_compile_options(tests PRIVATE
+        -fsanitize=address,undefined
+        -fno-omit-frame-pointer
+        -g
+    )
+    target_link_options(tests PRIVATE
+        -fsanitize=address,undefined
+    )
+endif()
 
 include(GoogleTest)
 gtest_discover_tests(tests)

@@ -27,13 +27,14 @@ public:
 
             bool await_ready() const noexcept { return false; }
 
-            std::coroutine_handle<> await_suspend(std::coroutine_handle<> caller) noexcept {
+            void await_suspend(std::coroutine_handle<> caller) noexcept {
                 auto coro = self->coro_;
 
                 // method from suspend.hpp -> FSAC
                 coro.promise().UpdateContinuation(caller);
 
-                return coro;
+                // method from storage.hpp 
+                coro.promise().PostTask(coro);
             }
 
             auto await_resume() noexcept {

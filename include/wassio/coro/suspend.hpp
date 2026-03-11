@@ -4,14 +4,22 @@
 
 namespace wassio::coro {
 
-struct LazySuspend { 
-    auto initial_suspend() noexcept { return std::suspend_always{}; } 
-    auto final_suspend() noexcept { return std::suspend_always{}; } 
+// initial_suspend
+struct InitialSuspendLazy {
+    auto initial_suspend() noexcept { return std::suspend_always{}; }
 };
 
-struct EagerSuspend { 
-    auto initial_suspend() noexcept { return std::suspend_never{}; } 
-    auto final_suspend() noexcept { return std::suspend_never{}; } 
+struct InitialSuspendEager {
+    auto initial_suspend() noexcept { return std::suspend_never{}; }
+};
+
+// final_suspend
+struct FinalSuspendLazy {
+    auto final_suspend() noexcept { return std::suspend_always{}; }
+};
+
+struct FinalSuspendEager {
+    auto final_suspend() noexcept { return std::suspend_never{}; }
 };
 
 // resumes parent corutine

@@ -17,11 +17,11 @@ using EntryCoro =
         coro::AwaitableNone,
         coro::PromiseConfig<
             coro::PromiseResult<void>, 
-            coro::LazySuspend, 
-            coro::EagerSuspend, 
+            coro::InitialSuspendLazy, 
+            coro::FinalSuspendLazy, 
             coro::SaveException, 
             coro::TransformAwaiterNone,
-            coro::PromiseStorage<>, 
+            coro::PromiseStorage, 
             coro::HeapAllocator>>;
 
 template<typename ResultType>
@@ -30,11 +30,11 @@ using AwaitableCoro =
         coro::Awaitable,
         coro::PromiseConfig<
             coro::PromiseResult<ResultType>, 
-            coro::LazySuspend, 
+            coro::InitialSuspendLazy, 
             coro::FinalSuspendAwakeContinuation, 
             coro::SaveException, 
             coro::TransformAwaiterNone,
-            coro::PromiseStorage<>, 
+            coro::PromiseStorage, 
             coro::HeapAllocator>>;
 
 }
