@@ -12,6 +12,18 @@
 
 namespace wassio {
 
+using EntryCoro = 
+    core::Coroutine<
+        core::AwaitableNone,
+        core::PromiseConfig<
+            core::PromiseResult<void>, 
+            core::LazySuspend, 
+            core::EagerSuspend, 
+            core::SaveException, 
+            core::TransformAwaiterNone,
+            core::PromiseStorage<>, 
+            core::HeapAllocator>>;
+
 template<typename ResultType>
 using AwaitableCoro = 
     core::Coroutine<
