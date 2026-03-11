@@ -1,10 +1,10 @@
 #pragma once
 
-#include "wassio/core/promise.hpp"
+#include "wassio/coro/promise.hpp"
 
 #include <utility>
 
-namespace wassio::core {
+namespace wassio::coro {
     
 /* 
 coroutine

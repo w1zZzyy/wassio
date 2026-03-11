@@ -2,7 +2,7 @@
 
 #include <coroutine>
 
-namespace wassio::core {
+namespace wassio::coro {
 
 struct LazySuspend { 
     auto initial_suspend() noexcept { return std::suspend_always{}; } 

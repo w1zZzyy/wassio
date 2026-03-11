@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <optional>
 
-namespace wassio::core {
+namespace wassio::coro {
 
 template<typename ReturnType>
 class PromiseResult {

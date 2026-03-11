@@ -2,7 +2,7 @@
 
 #include <exception>
 
-namespace wassio::core {
+namespace wassio::coro {
 
 class TerminateOnException {
 public: 

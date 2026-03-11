@@ -2,7 +2,7 @@
 
 #include <coroutine>
 
-namespace wassio::core {
+namespace wassio::coro {
 
 /* 
 promise config

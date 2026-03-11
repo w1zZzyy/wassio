@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace wassio::core {
+namespace wassio::coro {
 
 namespace {
 

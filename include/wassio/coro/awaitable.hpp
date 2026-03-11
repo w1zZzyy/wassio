@@ -2,7 +2,7 @@
 
 #include <coroutine>
 
-namespace wassio::core {
+namespace wassio::coro {
 
 template<typename Promise>
 class AwaitableNone {

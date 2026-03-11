@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdlib>
 
-namespace wassio::core {
+namespace wassio::coro {
 
 struct HeapAllocator {
     void* operator new (size_t bytes) {

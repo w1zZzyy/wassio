@@ -1,6 +1,6 @@
 #pragma once
 
-namespace wassio::core {
+namespace wassio::coro {
 
 struct TransformAwaiterNone {};
 
